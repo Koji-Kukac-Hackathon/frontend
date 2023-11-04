@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import Icon from './Icon'
+import Icon from '../Icon'
 
 import { ThemeToggle } from '@/components/ui/ThemeToggler'
 
