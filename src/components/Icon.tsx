@@ -1,5 +1,6 @@
 const icons = {
   logo: '/assets/icons/logo.svg',
+  'logo-full': '/assets/icons/logo-full.svg',
 }
 
 export type IconName = keyof typeof icons
