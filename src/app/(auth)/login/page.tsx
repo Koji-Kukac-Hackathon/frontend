@@ -48,18 +48,11 @@ export default function Login() {
 
   return (
     <div className="w-full h-full lg:grid lg:min-h-[600px] lg:grid-cols-2 ">
-      <div className="hidden bg-zinc-100 lg:block dark:bg-zinc-800">
-        <img
-          alt="Car Logo"
-          className="h-full w-full object-cover"
-          height="512"
-          src="/placeholder.svg"
-          style={{
-            aspectRatio: '512/512',
-            objectFit: 'cover',
-          }}
-          width="512"
-        />
+      <div className="hidden h-full lg:flex justify-center items-center bg-zinc-100  dark:bg-zinc-800">
+        <div className="flex">
+          <p className="font-black text-8xl">ZG</p>
+          <p className="font-medium text-6xl self-end mb-3">rabi mjesto</p>
+        </div>
       </div>
       <main className="flex h-full items-center justify-center py-12">
         <Form {...form}>
