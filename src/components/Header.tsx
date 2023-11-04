@@ -6,7 +6,7 @@ import { ThemeToggle } from '@/components/ui/ThemeToggler'
 
 export default function Header() {
   return (
-    <header className="w-full px-4 lg:px-6 h-20 flex items-center border-b shadow-sm fixed z-10 bg-white dark:bg-gray-800">
+    <header className="w-full px-4 lg:px-6 h-20 flex items-center border-b shadow-sm  z-10 bg-white dark:bg-gray-800">
       <Icon icon="logo" size={96} className="bg-black dark:bg-white" />
       <nav className="ml-auto flex gap-4 sm:gap-6">
         <Link className="text-md font-medium hover:underline underline-offset-4" href="#">
