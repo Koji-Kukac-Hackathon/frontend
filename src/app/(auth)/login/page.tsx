@@ -91,7 +91,7 @@ export default function Login() {
                   <FormItem>
                     <FormLabel htmlFor="password">Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="Pa$$word123" {...field} />
+                      <Input placeholder="Pa$$word123" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

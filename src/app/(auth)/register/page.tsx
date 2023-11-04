@@ -7,24 +7,32 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
 
-const RegisterSchema = z.object({
-  name: z.string().min(3, {
-    message: 'Name is required',
-  }),
-  email: z.string().min(3, {
-    message: 'Email is required',
-  }),
-  password: z.string().min(8, {
-    message: 'Password is required',
-  }),
-  repeatedPassword: z.string().min(8, {
-    message: 'Password is required',
-  }),
-})
+const RegisterSchema = z
+  .object({
+    name: z.string().min(1, {
+      message: 'Name is required',
+    }),
+
+    email: z
+      .string()
+      .min(3, {
+        message: 'Email is required',
+      })
+      .email('This is not a valid email.'),
+
+    password: z.string().min(8, {
+      message: 'Password should contain 8 characters or more',
+    }),
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
 
 export default function Register() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -33,7 +41,7 @@ export default function Register() {
       name: '',
       email: '',
       password: '',
-      repeatedPassword: '',
+      confirmPassword: '',
     },
   })
 
@@ -95,7 +103,7 @@ export default function Register() {
                 <FormItem>
                   <FormLabel htmlFor="password">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Pa$$word123" {...field} />
+                    <Input placeholder="Pa$$word123" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,14 +112,13 @@ export default function Register() {
 
             <FormField
               control={form.control}
-              name="repeatedPassword"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="repeatedPassword">Repeat Password</FormLabel>
+                  <FormLabel htmlFor="confirmPassword">Repeat Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Pa$$word123" {...field} />
+                    <Input placeholder="Pa$$word123" type="password" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
