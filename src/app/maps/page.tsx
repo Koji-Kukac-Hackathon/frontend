@@ -4,8 +4,6 @@ import { GoogleMap, InfoWindowF, MarkerF, useJsApiLoader } from '@react-google-m
 import { useEffect, useRef, useState } from 'react'
 import * as z from 'zod'
 
-export const DEFAULT_DISTANCE_IN_KM = '100'
-
 const mapSchema = z.object({
   city: z.string().min(1, {
     message: 'City is required',
