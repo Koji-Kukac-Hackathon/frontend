@@ -21,6 +21,7 @@ function ThemeToggle() {
 
   return (
     <Button
+      className="bg-gray-100 dark:bg-gray-900"
       variant="outline"
       size="icon"
       onClick={() => (resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark'))}

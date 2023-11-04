@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import Icon from '@/components/Icon'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -48,17 +49,19 @@ export default function Login() {
 
   return (
     <div className="w-full h-full lg:grid lg:min-h-[600px] lg:grid-cols-2 ">
-      <div className="hidden h-full lg:flex justify-center items-center bg-zinc-100  dark:bg-zinc-800">
-        <div className="flex">
-          <p className="font-black text-8xl">ZG</p>
-          <p className="font-medium text-6xl self-end mb-3">rabi mjesto</p>
-        </div>
+      <div className="hidden h-full lg:flex justify-center items-center bg-zinc-100  dark:bg-zinc-900">
+        <Link href="/">
+          <div className="flex">
+            <Icon icon="logo" className="bg-black dark:bg-white" size="400px" />
+            <p className="font-medium text-6xl self-center">rabi mjesto</p>
+          </div>
+        </Link>
       </div>
-      <main className="flex h-full items-center justify-center py-12">
+      <main className="flex h-full items-center justify-center py-12 bg-white dark:bg-gray-800">
         <Form {...form}>
           <form className="mx-auto w-[350px]" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-2 text-center">
-              <h1 className="text-3xl font-bold">Login</h1>
+              <h1 className="text-3xl font-bold">Sign in</h1>
               <p className="text-zinc-500 dark:text-zinc-400">Enter your email and password to login.</p>
               <br />
             </div>

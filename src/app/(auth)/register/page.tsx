@@ -62,8 +62,8 @@ export default function Register() {
     }, 2000)
   }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-xl shadow-md dark:bg-gray-800">
+    <div className="flex flex-col items-center justify-center min-h-screen ">
+      <div className="w-full max-w-md p-8 space-y-4  rounded-xl shadow-md bg-white dark:bg-gray-800">
         <h2 className="text-2xl font-bold text-center">Register</h2>
         <p className="text-center text-gray-600 dark:text-gray-400">Create your account to get started.</p>
         <Form {...form}>
