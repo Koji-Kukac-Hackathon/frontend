@@ -70,7 +70,7 @@ export default function Login() {
 
       toast({
         title: 'Login failed!',
-        description: response?.message ?? 'Something went wrong!',
+        description: 'Something went wrong!',
         variant: 'destructive',
       })
     },

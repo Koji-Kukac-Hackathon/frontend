@@ -1,6 +1,6 @@
 'use client'
 
-import { GoogleMap, InfoWindowF, MarkerF, useJsApiLoader } from '@react-google-maps/api'
+import { GoogleMap, InfoWindowF, MarkerF, OverlayView, useJsApiLoader } from '@react-google-maps/api'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
@@ -25,6 +25,7 @@ const containerStyle = {
 
 const Map = ({ config }: IMap) => {
   const { destination } = config
+
   const [position, setPosition] = useState({
     lat: 45.815,
     lng: 15.9819,
@@ -54,6 +55,7 @@ const Map = ({ config }: IMap) => {
   })
 
   const [selectedPlace, setSelectedPlace] = useState<Place>()
+
   const [places, _setPlaces] = useState<Place[]>([
     {
       name: 'Burger City',
@@ -94,23 +96,53 @@ const Map = ({ config }: IMap) => {
           }}
         >
           {places.map(place => (
-            <MarkerF
+            <OverlayView
               key={`${place.address}-${place.name}-${place.latitude}-${place.longitude}`}
-              onClick={place === selectedPlace ? () => setSelectedPlace(undefined) : () => setSelectedPlace(place)}
               position={{ lat: place.latitude, lng: place.longitude }}
-            />
+              mapPaneName={OverlayView.FLOAT_PANE}
+            >
+              <div
+                className="w-6 h-6 bg-red-500 rounded-full absolute cursor-pointer"
+                onClick={
+                  place === selectedPlace
+                    ? e => {
+                        e.stopPropagation()
+                        setSelectedPlace(undefined)
+                      }
+                    : e => {
+                        e.stopPropagation()
+                        setSelectedPlace(place)
+                      }
+                }
+              >
+                <div className="w-2 h-2 bg-white rounded-full relative top-2 left-2" />
+              </div>
+            </OverlayView>
           ))}
 
           {destination && (
-            <MarkerF
+            <OverlayView
               key={`${destinationPlace.address}-${destinationPlace.name}-${destinationPlace.latitude}-${destinationPlace.longitude}`}
               position={{ lat: position.lat, lng: position.lng }}
-              onClick={
-                destinationPlace === selectedPlace
-                  ? () => setSelectedPlace(undefined)
-                  : () => setSelectedPlace(destinationPlace)
-              }
-            />
+              mapPaneName={OverlayView.FLOAT_PANE}
+            >
+              <div
+                className="w-6 h-6 bg-purple-500 rounded-full absolute cursor-pointer"
+                onClick={
+                  destinationPlace === selectedPlace
+                    ? e => {
+                        e.stopPropagation()
+                        setSelectedPlace(undefined)
+                      }
+                    : e => {
+                        e.stopPropagation()
+                        setSelectedPlace(destinationPlace)
+                      }
+                }
+              >
+                <div className="w-2 h-2 bg-white rounded-full relative top-2 left-2" />
+              </div>
+            </OverlayView>
           )}
 
           {selectedPlace && (
@@ -119,12 +151,12 @@ const Map = ({ config }: IMap) => {
               zIndex={1}
               options={{
                 // @ts-ignore
-                pixelOffset: { width: 0, height: -40 },
+                pixelOffset: { width: 10, height: -5 },
               }}
               onCloseClick={() => setSelectedPlace(undefined)}
             >
               <div className="p-1">
-                <h2 className="dark:text-zinc-900 text-zinc-50 font-bold">{selectedPlace.name}</h2>
+                <h2 className="text-zinc-900 dark:text-zinc-50 font-bold">{selectedPlace.name}</h2>
                 <p className="text-zinc-500 dark:text-zinc-400">{selectedPlace.address}</p>
               </div>
             </InfoWindowF>
