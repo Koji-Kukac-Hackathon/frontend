@@ -10,6 +10,7 @@ export default function Home() {
   return (
     <div className="flex flex-col h-full w-full">
       <Header />
+
       <main className="flex w-full h-auto gap-8 justify-between items-center py-8 md:py-16 lg:py-24 px-8 md:px-16 lg:px-24">
         <section key="1" className="w-full h-full lg:w-[60%]">
           <div className="flex flex-col justify-center space-y-4">
