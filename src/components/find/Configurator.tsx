@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRef } from 'react'
+import Autocomplete, { usePlacesWidget } from 'react-google-autocomplete'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -85,8 +87,18 @@ const Configurator = ({ configSetters }: IConfigurator) => {
       ),
     })
   }
+
+  // const { ref } = usePlacesWidget({
+  //   apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+  //   onPlaceSelected: place => {
+  //     console.log(place)
+  //     // set the destination in the form
+  //     form.setValue('destination', place.formatted_address as string)
+  //   },
+  // })
+
   return (
-    <div className="w-[500px] h-full bg-white dark:bg-gray-800 pt-4 px-4 text-3xl font-bold">
+    <div className="w-[500px] h-full flex flex-col justify-center bg-white dark:bg-gray-800 pt-4 px-4 text-3xl font-bold">
       <h1>Configurator</h1>
       <Form {...form}>
         <form className="mx-auto w-[350px] flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
@@ -100,6 +112,7 @@ const Configurator = ({ configSetters }: IConfigurator) => {
                   Enter the destination address and we will show you closest parking spots.
                 </FormDescription>
                 <FormControl>
+                  {/* @ts-ignore */}
                   <Input placeholder="Ul. Vjekoslava Heinzela 60" {...field} />
                 </FormControl>
                 <FormMessage />

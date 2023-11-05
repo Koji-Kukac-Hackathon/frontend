@@ -4,6 +4,7 @@ import { GoogleMap, InfoWindowF, MarkerF, useJsApiLoader } from '@react-google-m
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
+import darkStyle from './darkMapStyle.json'
 import { SearchData } from './interface'
 
 interface IMap {
@@ -30,9 +31,9 @@ const Map = ({ config }: IMap) => {
   })
 
   const getDestinationPosition = async (city: string) => {
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=${
-      process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-    }`
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      city
+    )}&libraries=places&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
     const geocodeResponse = await fetch(geocodeUrl)
     const geocodeData = await geocodeResponse.json()
     const { lat, lng } = geocodeData.results[0].geometry.location
@@ -69,88 +70,15 @@ const Map = ({ config }: IMap) => {
   ])
 
   const { resolvedTheme } = useTheme()
-  const darkStyle = [
-    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-    { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-    {
-      featureType: 'administrative.locality',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#d59563' }],
-    },
-    {
-      featureType: 'poi',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#d59563' }],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [{ color: '#263c3f' }],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#6b9a76' }],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [{ color: '#38414e' }],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry.stroke',
-      stylers: [{ color: '#212a37' }],
-    },
-    {
-      featureType: 'road',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#9ca5b3' }],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry',
-      stylers: [{ color: '#746855' }],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry.stroke',
-      stylers: [{ color: '#1f2835' }],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#f3d19c' }],
-    },
-    {
-      featureType: 'transit',
-      elementType: 'geometry',
-      stylers: [{ color: '#2f3948' }],
-    },
-    {
-      featureType: 'transit.station',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#d59563' }],
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [{ color: '#17263c' }],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [{ color: '#515c6d' }],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.stroke',
-      stylers: [{ color: '#17263c' }],
-    },
-  ]
+  let styles = resolvedTheme === 'dark' ? darkStyle.style : []
 
-  let styles = resolvedTheme === 'dark' ? darkStyle : []
+  const destinationPlace = {
+    name: 'Your Destination',
+    address: destination,
+    latitude: position.lat,
+    longitude: position.lng,
+  }
+
   return (
     <>
       {isLoaded && (
@@ -172,6 +100,19 @@ const Map = ({ config }: IMap) => {
               position={{ lat: place.latitude, lng: place.longitude }}
             />
           ))}
+
+          {destination && (
+            <MarkerF
+              key={`${destinationPlace.address}-${destinationPlace.name}-${destinationPlace.latitude}-${destinationPlace.longitude}`}
+              position={{ lat: position.lat, lng: position.lng }}
+              onClick={
+                destinationPlace === selectedPlace
+                  ? () => setSelectedPlace(undefined)
+                  : () => setSelectedPlace(destinationPlace)
+              }
+            />
+          )}
+
           {selectedPlace && (
             <InfoWindowF
               position={{ lat: selectedPlace.latitude, lng: selectedPlace.longitude }}
@@ -182,9 +123,9 @@ const Map = ({ config }: IMap) => {
               }}
               onCloseClick={() => setSelectedPlace(undefined)}
             >
-              <div>
-                <h2>{selectedPlace.name}</h2>
-                <p>{selectedPlace.address}</p>
+              <div className="p-1">
+                <h2 className="dark:text-zinc-900 text-zinc-50 font-bold">{selectedPlace.name}</h2>
+                <p className="text-zinc-500 dark:text-zinc-400">{selectedPlace.address}</p>
               </div>
             </InfoWindowF>
           )}
