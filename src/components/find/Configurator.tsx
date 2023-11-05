@@ -1,6 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRef } from 'react'
-import Autocomplete, { usePlacesWidget } from 'react-google-autocomplete'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 

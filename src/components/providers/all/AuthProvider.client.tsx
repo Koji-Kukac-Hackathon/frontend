@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react'
 
-import { AuthUser } from '@/lib/api/auth'
+import { AuthUser } from '@/lib/api/types'
 
 const AuthProviderContext = createContext(
   null as null | {
