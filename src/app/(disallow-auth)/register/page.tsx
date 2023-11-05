@@ -70,13 +70,12 @@ export default function Register() {
           description: "You're now logged in!",
         })
 
-        router.push('/login')
-        return
+        router.push('/find')
       }
 
       toast({
         title: 'Register failed!',
-        description: data?.message ?? 'Something went wrong!',
+        description: 'Something went wrong!',
         variant: 'destructive',
       })
     },

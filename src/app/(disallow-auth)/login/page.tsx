@@ -66,8 +66,6 @@ export default function Login() {
         })
 
         router.push('/find')
-
-        return
       }
 
       toast({
