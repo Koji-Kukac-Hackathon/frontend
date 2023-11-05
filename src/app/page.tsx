@@ -1,19 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 import Footer from '@/components/landing/Footer'
 import Header from '@/components/landing/Header'
-import { Button } from '@/components/ui/button'
 
 export default function Home() {
-  const router = useRouter()
-
-  function handleStartNow() {
-    router.push('/login')
-  }
-
   return (
     <div className="flex flex-col h-full w-full">
       <Header />
@@ -84,15 +77,18 @@ export default function Home() {
               </li>
             </ul>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Button
-                onClick={() => handleStartNow()}
+              <Link
+                href="/find"
                 className="inline-flex h-10 items-center justify-center rounded-md bg-zinc-900 px-8 text-sm font-medium text-zinc-50 shadow transition-colors hover:bg-zinc-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90 dark:focus-visible:ring-zinc-300"
               >
                 Start Now
-              </Button>
-              <Button className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-200 bg-white dark:bg-gray-800 px-8 text-sm font-medium shadow-sm transition-colors text-zinc-900 dark:text-zinc-50 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:border-zinc-800  dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-300">
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-200 bg-white dark:bg-gray-800 px-8 text-sm font-medium shadow-sm transition-colors text-zinc-900 dark:text-zinc-50 hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 disabled:pointer-events-none disabled:opacity-50 dark:border-zinc-800  dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:focus-visible:ring-zinc-300"
+              >
                 Learn More
-              </Button>
+              </Link>
             </div>
           </div>
         </section>
