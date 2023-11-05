@@ -1,20 +1,15 @@
+import { getAuthToken } from './auth.client'
+import { AuthUser } from './types'
 import { fetchApi } from '../api'
-
-export type AuthUser = {
-  name: string
-  email: string
-  role: string
-}
+import { isClient } from '../utils'
 
 export const fetchSelf = async (authToken: string | null) => {
-  const headers: HeadersInit = {}
-
-  if (authToken) {
-    headers.Authorization = `Bearer ${authToken}`
+  if (!authToken && isClient()) {
+    authToken = getAuthToken()
   }
 
   const response = await fetchApi<AuthUser>('/auth/user', {
-    headers,
+    authToken,
   })
 
   if (response?.status === 'success') {

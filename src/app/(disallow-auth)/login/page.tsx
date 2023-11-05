@@ -14,8 +14,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
 import { fetchApi } from '@/lib/api'
-import { AuthUser } from '@/lib/api/auth'
 import { AUTH_TOKEN_COOKIE_NAME } from '@/lib/api/auth.common'
+import { AuthUser } from '@/lib/api/types'
 
 const LoginSchema = z.object({
   email: z.string().min(1, {

@@ -1,8 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -10,6 +11,8 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
+import { fetchApi } from '@/lib/api'
+import { AuthUser } from '@/lib/api/types'
 
 const RegisterSchema = z
   .object({
@@ -35,6 +38,8 @@ const RegisterSchema = z
   })
 
 export default function Register() {
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -45,21 +50,42 @@ export default function Register() {
     },
   })
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const registerMutation = useMutation({
+    mutationFn: async (data: z.infer<typeof RegisterSchema>) => {
+      const response = await fetchApi<{ user: AuthUser }>('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      return response
+    },
+
+    onSuccess(data) {
+      if (data?.status === 'success') {
+        toast({
+          title: 'Register success!',
+          description: "You're now logged in!",
+        })
+
+        router.push('/login')
+        return
+      }
+
+      toast({
+        title: 'Register failed!',
+        description: data?.message ?? 'Something went wrong!',
+        variant: 'destructive',
+      })
+    },
+  })
+
+  const isLoading = registerMutation.isPending
 
   function onSubmit(data: z.infer<typeof RegisterSchema>) {
-    setIsLoading(true)
-    setTimeout(() => {
-      toast({
-        title: 'You submitted the following values:',
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
-      setIsLoading(false)
-    }, 2000)
+    registerMutation.mutate(data)
   }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">

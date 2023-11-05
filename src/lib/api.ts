@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+import { getAuthToken } from './api/auth.client'
+import { isClient } from './utils'
+
 export type ApiResponse<TData> =
   | {
       status: 'error'
@@ -27,10 +30,40 @@ const apiResponseValidator = z.union([
   }),
 ])
 
-export const fetchApi = async <TData>(path: `/${string}`, options?: RequestInit) => {
+const addHeader = (headers: HeadersInit, name: string, value: string) => {
+  if (Array.isArray(headers)) {
+    headers.push([name, value])
+    return
+  }
+
+  if (headers instanceof Headers) {
+    headers.append(name, value)
+    return
+  }
+
+  headers[name] = value
+}
+
+export const fetchApi = async <TData>(
+  path: `/${string}`,
+  options?: RequestInit & {
+    authToken?: string | null
+  }
+) => {
+  const headers = options?.headers ?? {}
+  let authToken = options?.authToken
+  if (!authToken && isClient()) {
+    authToken = getAuthToken()
+  }
+
+  if (authToken) {
+    addHeader(headers, 'Authorization', `Bearer ${authToken}`)
+  }
+
   return fetch(apiUrl(path), {
     referrerPolicy: 'unsafe-url',
     ...options,
+    headers,
   })
     .then(res => res.json())
     .then(res => apiResponseValidator.safeParseAsync(res))
