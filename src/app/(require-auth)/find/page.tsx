@@ -37,7 +37,7 @@ const Find = () => {
 
   return (
     <div className="w-full h-full flex">
-      <Configurator configAndSetters={configAndSetters} />
+      <Configurator configSetters={configAndSetters} />
       <Map config={config} />
     </div>
   )

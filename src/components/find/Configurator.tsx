@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 
 interface IConfigurator {
-  configAndSetters: I.SearchDataSetters
+  configSetters: I.SearchDataSetters
 }
 
 const zonesConfig = [
@@ -56,8 +56,8 @@ const ConfiguratorSchema = z.object({
   }),
 })
 
-const Configurator = ({ configAndSetters }: IConfigurator) => {
-  const { setDestination, setRadius, setPriceMin, setPriceMax, setZones } = configAndSetters
+const Configurator = ({ configSetters }: IConfigurator) => {
+  const { setDestination, setRadius, setPriceMin, setPriceMax, setZones } = configSetters
 
   const form = useForm<z.infer<typeof ConfiguratorSchema>>({
     resolver: zodResolver(ConfiguratorSchema),
