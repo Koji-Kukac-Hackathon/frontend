@@ -14,3 +14,14 @@ export type AuthUser = {
   email: string
   role: string
 }
+
+export type ParkingSpot = {
+  id: string
+  latitude: number
+  longitude: number
+  parkingSpotZone: string
+  occupied: boolean
+  occupiedTimestamp: string
+  lastDataReceived: string
+  price: number
+}

@@ -44,7 +44,7 @@ const addHeader = (headers: HeadersInit, name: string, value: string) => {
   headers[name] = value
 }
 
-export const fetchApi = async <TData>(
+export const fetchApiRaw = async <TData>(
   path: `/${string}`,
   options?: RequestInit & {
     authToken?: string | null
@@ -65,7 +65,21 @@ export const fetchApi = async <TData>(
     ...options,
     headers,
   })
-    .then(res => res.json())
+    .then(res => res.json() as Promise<TData>)
+    .catch(e => {
+      console.error(e)
+
+      return null
+    })
+}
+
+export const fetchApi = async <TData>(
+  path: `/${string}`,
+  options?: RequestInit & {
+    authToken?: string | null
+  }
+) => {
+  return fetchApiRaw(path, options)
     .then(res => apiResponseValidator.safeParseAsync(res))
     .then(res => {
       if (!res.success) {
